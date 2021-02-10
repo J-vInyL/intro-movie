@@ -1,19 +1,24 @@
 import React from "react";
-import { useQuery } from "react-apollo";
+import { Query } from "react-apollo";
 import { ABOUT_PAGE } from "../graphql/gql";
 import "./About.css";
 
-function About(props) {
-  //console.log(props);
-  const { loading, error, data } = useQuery(ABOUT_PAGE);
-
-  if (loading) return console.log("loading123", loading);
-  if (error) console.log("errorr123", error);
-  console.log("data111", data.allShoes);
-
+function About() {
   return (
     <div className="about__container">
-      <h1> hello</h1>
+      <Query query={ABOUT_PAGE}>
+        {({ loading, error, data }) => {
+          if (loading) return <p>Loading123...</p>;
+          if (error) return <p>Error!123</p>;
+          return (
+            <ul>
+              {data.allShoes.map(({ _id, name, price }) => (
+                <li key={_id}>{name}</li>
+              ))}
+            </ul>
+          );
+        }}
+      </Query>
     </div>
   );
 }

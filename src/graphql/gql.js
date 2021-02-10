@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const ABOUT_PAGE = gql`
-  query allShoes {
+  query {
     allShoes {
       name
       price
