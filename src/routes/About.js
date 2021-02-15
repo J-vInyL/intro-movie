@@ -1,26 +1,36 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { ABOUT_PAGE } from "../graphql/gql";
+import Shoes from "../component/Shoes";
+import styled from "styled-components";
 import "./About.css";
 
-function About() {
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 0.7fr);
+  flex-wrap: wrap;
+  justify-items: center;
+`;
+
+const About = () => {
+  const { loading, error, data } = useQuery(ABOUT_PAGE);
   return (
-    <div className="about__container">
-      <Query query={ABOUT_PAGE}>
-        {({ loading, error, data }) => {
-          if (loading) return <p>Loading123...</p>;
-          if (error) return <p>Error!123</p>;
-          return (
-            <ul>
-              {data.allShoes.map(({ _id, name, price }) => (
-                <li key={_id}>{name}</li>
-              ))}
-            </ul>
-          );
-        }}
-      </Query>
-    </div>
+    <Container>
+      {loading && "Loading123..."}
+      {error && "Something is wrong"}
+      {!loading &&
+        data &&
+        data.allShoes &&
+        data.allShoes.map(shoes => (
+          <Shoes
+            _id={shoes._id}
+            key={shoes._id}
+            name={shoes.name}
+            price={shoes.price}
+          />
+        ))}
+    </Container>
   );
-}
+};
 
 export default About;

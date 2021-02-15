@@ -6,17 +6,12 @@ import Detail from "./routes/Detail";
 import Navigation from "./component/Navigation";
 import HeaderContainer from "./component/HeaderContainer";
 
-import { ApolloProvider } from "react-apollo";
-import ApolloClient from "apollo-boost";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloProvider } from "@apollo/client";
+//import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
+
+import client from "./apollo/Client";
 
 import "./App.css";
-
-const client = new ApolloClient({
-  link: createHttpLink({ uri: "http://localhost:4000/graphql" }),
-  cache: new InMemoryCache()
-});
 
 function App() {
   return (
