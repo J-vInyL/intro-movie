@@ -27,18 +27,28 @@ const Title = styled.span`
   margin: auto;
 `;
 
-const Shoes = ({ _id, name, price }) => (
-  <Link to={`/about/${_id}`}>
-    <Card>
-      <Title>
-        {name} / {price}
-      </Title>
-    </Card>
-  </Link>
-);
+function Shoes({ _id, name, price }) {
+  return (
+    <Link
+      to={{
+        pathname: `/about/${_id}`,
+        state: {
+          name,
+          price
+        }
+      }}
+    >
+      <Card>
+        <Title>
+          {name} / {price}
+        </Title>
+      </Card>
+    </Link>
+  );
+}
 
-Shoes.prototype = {
-  _id: PropTypes.number.isRequired,
+Shoes.propTypes = {
+  _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired
 };

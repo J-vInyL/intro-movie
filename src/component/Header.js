@@ -1,77 +1,101 @@
 import React from "react";
-import styled from "styled-components";
-import oc from "open-color";
-import { shadow, media } from "../lib/StyleUtil";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import "./Header.css";
 
-// 상단 고정, 그림자
-const Positioner = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0px;
-  width: 100%;
-  ${shadow(1)}
-`;
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1,
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block"
+    }
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
+    },
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto"
+    }
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  inputRoot: {
+    color: "inherit"
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch"
+      }
+    }
+  }
+}));
 
-// 흰 배경, 내용 중간 정렬
-const WhiteBackground = styled.div`
-  background: white;
-  display: flex;
-  justify-content: center;
-  height: auto;
-`;
-
-// 해더의 내용
-const HeaderContents = styled.div`
-  width: 1200px;
-  height: 55px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  padding-right: 1rem;
-  padding-left: 1rem;
-  ${media.wide`
-        width: 992px;
-    `}
-
-  ${media.tablet`
-        width: 100%;
-    `}
-`;
-
-// 로고
-const Logo = styled.div`
-  font-size: 1.4rem;
-  letter-spacing: 2px;
-  color: ${oc.teal[7]};
-  font-family: "Rajdhani";
-`;
-
-// 중간 여백
-const Spacer = styled.div`
-  flex-grow: 1;
-`;
-
-// 하단 그래디언트 테두리
-const GradientBorder = styled.div`
-  height: 3px;
-  background: linear-gradient(to right, ${oc.teal[6]}, ${oc.cyan[5]});
-`;
-
-const Header = ({ children }) => {
+export default function Header() {
+  const classes = useStyles();
   return (
-    <Positioner>
-      <WhiteBackground>
-        <HeaderContents>
-          <Logo>Finder</Logo>
-          <Spacer />
-          {children}
-        </HeaderContents>
-      </WhiteBackground>
-      <GradientBorder />
-    </Positioner>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography className={classes.title} variant="h6" noWrap>
+            Hide-Out
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="검색하기"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput
+              }}
+              inputProps={{ "aria-label": "search" }}
+            />
+          </div>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
-};
-
-export default Header;
+}

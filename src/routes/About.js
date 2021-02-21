@@ -15,21 +15,24 @@ const Container = styled.div`
 const About = () => {
   const { loading, error, data } = useQuery(ABOUT_PAGE);
   return (
-    <Container>
-      {loading && "Loading123..."}
-      {error && "Something is wrong"}
-      {!loading &&
-        data &&
-        data.allShoes &&
-        data.allShoes.map(shoes => (
-          <Shoes
-            _id={shoes._id}
-            key={shoes._id}
-            name={shoes.name}
-            price={shoes.price}
-          />
-        ))}
-    </Container>
+    <div>
+      <Container>
+        {loading && "Loading123..."}
+        {error && "Something is wrong"}
+        {!loading &&
+          data &&
+          data.allShoes &&
+          data.allShoes.map(shoes => (
+            <Shoes
+              _id={shoes._id}
+              key={shoes._id}
+              name={shoes.name}
+              price={shoes.price}
+            />
+          ))}
+        <Container />
+      </Container>
+    </div>
   );
 };
 
